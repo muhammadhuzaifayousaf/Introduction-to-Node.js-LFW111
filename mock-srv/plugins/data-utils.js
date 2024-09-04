@@ -1,4 +1,5 @@
 "use strict";
+import fastify from "fastify";
 import fp from "fastify-plugin";
 import { PassThrough } from "node:stream";
 
@@ -39,7 +40,6 @@ function addOrder(id, amount) {
   }
   orders[id].total += amount;
   const { total } = orders[id]
-  console.log("Adding order: %o", { id, total });
   orderStream.write({ id, total });
 }
 
@@ -62,6 +62,7 @@ const calculateID = (idPrefix, data) => {
 
 // Plugin
 export default fp(async function (fastify, opts) {
+  debugger
   fastify.decorate("currentOrders", currentOrders);
   fastify.decorate("realtimeOrders", realtimeOrdersSimulator);
   fastify.decorate("addOrder", addOrder);
