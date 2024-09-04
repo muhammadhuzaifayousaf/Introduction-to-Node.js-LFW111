@@ -35,3 +35,20 @@ function* currentOrders(category) {
   for (const id of ids)
     yield JSON.stringify({ id, ...orders[id] });
   }
+
+  const calculateID = (idPrefix, data) => {
+    const sorted = [...new Set(data.map(({ id }) => id))];
+    const next = Number(sorted.pop().slice(1)) + 1;
+    return `${idPrefix}${next}`
+  };
+  
+  export default fp(async function (fastify, opts) {
+    fastify.decorate("currentOrders", currentOrders);
+    fastify.decorate("realtimeOrders", realtimeOrdersSimulator);
+    fastify.decorate("mockDataInsert", function (request, category, data) {
+      const idPrefix = catToPrefix[category];
+      const id = calculateID(idPrefix, data);
+      data.push({ id, ...request.body });
+      return data;
+    });
+  });
