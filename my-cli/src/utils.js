@@ -16,24 +16,33 @@ export const error = (msg) => {
 
 // Update the order with the given ID
 export async function update(id, amount) {
-  log(`Updating order ${id} with amount ${amount}`);
-  try {
-    if (isNaN(+amount)) {
-      log("Error: <AMOUNT> must be a number");
+    log(`${displayTimestamp()}`);
+    log(
+      `${displayInfo(`Updating Order`)} ${displayID(id)} ${displayText(
+        "with amount"
+      )} ${displayAmount(amount)}`
+    );
+    try {
+      if (isNaN(+amount)) {
+        error("<AMOUNT> must be a number");
+        process.exit(1);
+      }
+      // Use GOT to make a POST request to the API
+      await got.post(`${API}/orders/${id}`, {
+        json: { amount: +amount },
+      });
+      // Log the result to the console
+      log(
+        `${displaySuccess()} ${displayText("Order")} ${displayID(
+         id
+        )} ${displayText("updated with amount")} ${displayAmount(amount)}`
+      );
+    } catch (err) {
+      // If there is an error, log it to the console and exit
+      console.log(err.message);
       process.exit(1);
     }
-    // Use GOT to make a POST request to the API
-    await got.post(`${API}/orders/${id}`, {
-      json: { amount: +amount },
-    });
-    // Log the result to the console
-    log(`Order ${id} updated with amount ${amount}`);
-  } catch (err) {
-    // If there is an error, log it to the console and exit
-    error(err.message);
-    process.exit(1);
   }
-}
 
 // Add a new order
 export async function add(...args) {
