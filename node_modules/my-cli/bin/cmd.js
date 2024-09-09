@@ -12,6 +12,20 @@ program
 // Parse the arguments from process.argv
 program.parse();
 
+// Create a command for adding a new order
+program
+  // Set the command name
+  .command("update")
+  // Set the argument ID to be required
+  .argument("<ID>", "Order ID")
+  // Set the argument AMOUNT to be required
+  .argument("<AMOUNT>", "Order Amount")
+  // Set the action to be executed when the command is run
+  .action(async (id,amount) => await updateItem(id,amount));
+
+  // Parse the arguments from process.argv
+  program.parse();
+  
 const API = "http://localhost:3000";
 
 // Log the usage of the command to the console
