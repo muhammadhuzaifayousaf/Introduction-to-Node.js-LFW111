@@ -14,3 +14,4 @@ export const promptListIds = async () => {
   const { category } = await prompt(categoryQuestions);
   return listCategoryItems(category);
 };
+await promptListIds()
