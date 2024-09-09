@@ -44,33 +44,49 @@ export async function update(id, amount) {
     }
   }
 
-// Add a new order
+/// Add a new order
 export async function add(...args) {
-  // Destructure the arguments
-  let [category, id, name, amount, info] = args;
-  log(`Adding item ${id} with amount ${amount}`);
-  try {
-    if (isNaN(+amount)) {
-      error(`Error: <AMOUNT> must be a number`);
+    // Destructure the arguments
+    let [category, id, name, amount, info] = args;
+    log(`${displayTimestamp()}`);
+    log(
+      `${displayInfo(`Request to add item to category`)} ${displayCategory(
+        category
+      )}`
+    );
+    log(
+      `${displayText("Adding item")} ${displayID(id)} ${displayText(
+        "with amount"
+      )} ${displayAmount(`$${amount}`)}`
+    );
+    try {
+      if (isNaN(+amount)) {
+        error(`<AMOUNT> must be a number`);
+        process.exit(1);
+      }
+      // Use GOT to make a POST request to the API
+      await got.post(`${API}/${category}`, {
+        json: {
+          id,
+          name,
+          rrp: +amount,
+          info: info.join(" "),
+        },
+      });
+      // Log the result to the console
+      log(
+        `${displaySuccess("Product Added! :")} ${displayID(id)} ${displayName(
+          name
+        )} ${displayText("has been added to the")} ${displayCategory(
+          category
+        )} ${displayText("category")}`
+      );
+    } catch (err) {
+      // If there is an error, log it to the console and exit
+      error(err.message);
       process.exit(1);
     }
-    // Use GOT to make a POST request to the API
-    await got.post(`${API}/${category}`, {
-      json: {
-        id,
-        name,
-        rrp: +amount,
-        info: info.join(" "),
-      },
-    });
-    // Log the result to the console
-    log(`Item "${id}:${name}" has been added to the ${category} category`);
-  } catch (err) {
-    // If there is an error, log it to the console and exit
-    error(err.message);
-    process.exit(1);
   }
-}
 
 // List the categories
 export function listCategories() {
