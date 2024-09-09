@@ -30,6 +30,38 @@ async function updateItem(id, amount) {
   }
 }
 
+// List the categories
+export function listCategories() {
+  log("Listing categories");
+  try {
+    // Loop through the categories and log them to the console
+    for (const cat of categories) log(cat);
+  } catch (err) {
+    // If there is an error, log it to the console and exit
+    error(err.message);
+    process.exit(1);
+  }
+}
+
+// List the IDs for the given category
+export async function listCategoryItems(category) {
+    log(`Listing IDs for category ${category}`);
+    try {
+      // Use GOT to make a GET request to the API
+      const result = await got(`${API}/${category}/`).json();
+      // Log the result to the console
+      for (const item of result) {
+        log(
+          `${item.id}: ${item.name} - $${item.rrp}\nProduct Info:\t${item.info}`
+        );
+      }
+    } catch (err) {
+      // If there is an error, log it to the console and exit
+      console.log(err.message);
+      process.exit(1);
+    }
+  }
+
 // Create a new Program
 program
   .name("my-cli") // Set the name of the program
@@ -68,6 +100,6 @@ program
     async (category, id, name, amount, info) =>
       await add(category, id, name, amount, info)
   );
-  
+
 // Parse the arguments from process.argv
 program.parse();
