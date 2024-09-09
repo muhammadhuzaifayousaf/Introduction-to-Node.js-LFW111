@@ -75,4 +75,37 @@ const orderQuestions = [
   export const promptCommand = async () => {
     const { command } = await prompt(commandsQuestions);
     return command;
-  };  
+  };
+  
+  export const interactiveApp = async (cmd) => {
+    log(displayText(`Back office for My App`));
+    log(displayInfo(`Interactive Mode`));
+    try {
+      const command = cmd ?? await promptCommand();
+      switch (command) {
+        case "add":
+          log(displayInfo(`Add Order`));
+          await promptAddOrder();
+          return interactiveApp();
+        case "update":
+          log(displayInfo(`Update Order`));
+          await promptUpdate();
+          return interactiveApp();
+        case "list":
+          log(displayInfo(`List Categories`));
+          await listCategories();
+          return interactiveApp();
+        case "list by ID's":
+          log(displayInfo(`List Category Items`));
+          await promptListIds();
+          return interactiveApp();
+        case "help":
+          program.help();
+        case "exit":
+          process.exit(0);
+      }
+    } catch (err) {
+      error(err);
+      process.exit(1);
+    }
+  };
