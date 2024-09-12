@@ -1,6 +1,6 @@
 # Introduction to Node.js (LFW111)
 
-[![Certificate](https://github.com/user-attachments/assets/903b1f93-eee2-4d23-93dc-a0875f66a30f)](https://github.com/user-attachments/assets/903b1f93-eee2-4d23-93dc-a0875f66a30f)
+[![Certificate](https://github.com/user-attachments/assets/903b1f93-eee2-4d23-93dc-a0875f66a30f)](https://ti-user-certificates.s3.amazonaws.com/e0df7fbf-a057-42af-8a1f-590912be5460/8de2d745-a911-4ea8-8f1a-0165643e2587-muhammad-huzaifa-yousaf-20c576c6-49e7-4815-8f2b-3ec17cd16506-certificate.pdf)
 
 <a href="https://www.credly.com/badges/70a9ef30-a9d0-431c-b7be-b54ba170a5ad/">
   <img src="https://github.com/user-attachments/assets/59f5dd03-9c3a-4036-b826-406bef0e6003" alt="Badge" width="512" />
